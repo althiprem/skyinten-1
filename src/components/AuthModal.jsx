@@ -7,6 +7,7 @@ import {
   signUpWithEmail,
   signInWithEmail,
 } from "../config/firebase";
+import { useNavigate } from "react-router-dom";
 import { FaGithub, FaGoogle, FaTimes } from "react-icons/fa";
 import "../styles/components/AuthModal.css";
 
@@ -20,6 +21,8 @@ export default function AuthModal({ isOpen, type, onClose, onSuccess }) {
   const [switching, setSwitching] = useState(false); // controls login/signup transition
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
+  
 
   // Open/close logic
   useEffect(() => {
@@ -70,6 +73,9 @@ export default function AuthModal({ isOpen, type, onClose, onSuccess }) {
     const password = formData.get("password");
     const name = formData.get("name");
 
+
+
+
     try {
       let cred;
       if (localType === "signup") {
@@ -79,6 +85,7 @@ export default function AuthModal({ isOpen, type, onClose, onSuccess }) {
       }
       onSuccess?.(cred.user);
       handleClose();
+      navigate("/dashboard"); 
     } catch (err) {
       setError(err.message || "Something went wrong. Please try again.");
     } finally {
@@ -93,6 +100,7 @@ export default function AuthModal({ isOpen, type, onClose, onSuccess }) {
       const result = await signInWithGoogle();
       onSuccess?.(result.user);
       handleClose();
+      navigate("/dashboard"); 
     } catch (err) {
       setError(err.message || "Google sign-in failed.");
     } finally {
@@ -107,6 +115,7 @@ export default function AuthModal({ isOpen, type, onClose, onSuccess }) {
       const result = await signInWithGithub();
       onSuccess?.(result.user);
       handleClose();
+      navigate("/dashboard"); 
     } catch (err) {
       setError(err.message || "GitHub sign-in failed.");
     } finally {
