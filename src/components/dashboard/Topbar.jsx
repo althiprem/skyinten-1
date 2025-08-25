@@ -7,6 +7,7 @@ import {
   FaUserCircle,
 } from "react-icons/fa";
 import "../../styles/components/Topbar.css";
+import avatar from '../../assets/images/naruto.png'
 
 const Topbar = ({
   userName,
@@ -77,12 +78,19 @@ const Topbar = ({
           </button>
           {profileMenuOpen && (
             <div className="topbar__dropdown" role="menu">
+              <img 
+        src ={avatar} alt="profile avatar"
+        className="w-16 h-16 rounded-full 0bject-cover"
+           style={{ borderRadius: "100%" }}
+           width={110}
+           height={110}  ///you can remove when we needed
+        />
               <div className="topbar__user-info-section">
                 <FaUserCircle className="topbar__user-icon" />
                 <div className="topbar__user-details">
                   <span className="topbar__dropdown-username">{userName}</span>
                   <span className="topbar__dropdown-email">
-                    lingam@skyintern.com
+                    User@skyintern.com
                   </span>
                 </div>
               </div>

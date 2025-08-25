@@ -7,9 +7,14 @@ import {
   FaCompass,
   FaSignOutAlt,
   FaStar,
+  FaMoneyBill
+  
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "../../styles/components/Sidebar.css";
+import { IoMicOff } from "react-icons/io5";
+
+
 
 const Sidebar = ({
   currentSection,
@@ -38,6 +43,7 @@ const Sidebar = ({
     { key: "profile", label: "Profile", icon: <FaUser /> },
     { key: "achievements", label: "Achievements", icon: <FaStar /> },
     { key: "explore", label: "Explore Courses", icon: <FaCompass /> },
+    { key: "payment", label: "Payment", icon: <FaMoneyBill /> }, 
   ];
 
   return (

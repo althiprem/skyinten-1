@@ -6,6 +6,7 @@ import DashHome from "../components/dashboard/DashHome";
 import CourseGrid from "../components/dashboard/CourseGrid";
 import Profile from "../components/dashboard/Profile";
 import Accomplishments from "../components/dashboard/Accomplishments";
+import avatar from '../assets/images/naruto.png'
 
 const Dashboard = () => {
   const [currentSection, setCurrentSection] = useState("home");
@@ -101,7 +102,7 @@ const Dashboard = () => {
       case "home":
         return (
           <DashHome
-            userName="Lingam"
+            userName=" "
             onNavigate={setCurrentSection}
             purchasedCourses={purchasedCourses}
             hackathon={hackathon}
@@ -121,7 +122,7 @@ const Dashboard = () => {
       default:
         return (
           <DashHome
-            userName="Lingam"
+            userName=""
             onNavigate={setCurrentSection}
             purchasedCourses={purchasedCourses}
             hackathon={hackathon}
@@ -145,7 +146,7 @@ const Dashboard = () => {
       />
       <div className="dashboard__content">
         <Topbar
-          userName="Lingam"
+          userName=""
           onMenuToggle={handleMenuToggle}
           isMobile={isMobile}
           currentSection={currentSection}
