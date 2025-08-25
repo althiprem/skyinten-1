@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Home from "./pages/Home.jsx";
 import Dashboard from "./pages/Dashboard.jsx"; 
 import { Payment } from "./components/dashboard/Payment.jsx";
+import Contact from "./pages/Contact.jsx";
 
 
 
@@ -16,6 +17,7 @@ export default function App() {
           path="/payment"
           element={
               <Payment />}/>
+              <Route path="/contact" element={<Contact />} />
       </Routes>
     
   );

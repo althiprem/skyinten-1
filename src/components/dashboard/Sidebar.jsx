@@ -7,7 +7,8 @@ import {
   FaCompass,
   FaSignOutAlt,
   FaStar,
-  FaMoneyBill
+  FaMoneyBill,
+  FaPhone
   
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
@@ -35,6 +36,12 @@ const Sidebar = ({
     if (isMobile) {
       setShowSidebar(false);
     }
+    if (key === "contact") {
+     navigate("/contact");
+}
+    if (key === "payment") {
+      navigate("/payment")
+    }
   };
 
   const menuItems = [
@@ -43,7 +50,9 @@ const Sidebar = ({
     { key: "profile", label: "Profile", icon: <FaUser /> },
     { key: "achievements", label: "Achievements", icon: <FaStar /> },
     { key: "explore", label: "Explore Courses", icon: <FaCompass /> },
-    { key: "payment", label: "Payment", icon: <FaMoneyBill /> }, 
+    { key: "payment", label: "Payment", icon: <FaMoneyBill /> },
+    { key: "contact", label: "Contact Us", icon: <FaPhone /> }
+ 
   ];
 
   return (
