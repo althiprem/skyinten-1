@@ -5,11 +5,11 @@ import Dashboard from "./pages/Dashboard.jsx"; // 👈 Added this line
 
 export default function App() {
   return (
-    <Router>
+    
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
-    </Router>
+    
   );
 }
