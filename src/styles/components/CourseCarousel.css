@@ -1,0 +1,127 @@
+/* --- CourseCarousel.css --- */
+.courseCarousel {
+  padding: 2rem 0;
+  background-color: #f9fafb;
+  position: relative;
+}
+
+/* Container */
+.courseCarousel__container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 5vw, 32px);
+  text-align: center;
+}
+
+/* Title */
+.courseCarousel__title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 3.5rem;
+  text-align: center;
+}
+
+/* Swiper wrapper */
+.courseCarousel__swiper {
+  position: relative;
+}
+
+/* Swiper core */
+.swiper {
+  padding-bottom: 48px; /* space for pagination */
+  cursor: grab;
+}
+
+/* Navigation arrows wrapper */
+.courseCarousel__nav {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* Arrows */
+.courseCarousel__arrow {
+  width: 40px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  color: #932df9;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-size: 1.5rem;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  /* BUFF: Add opacity to transition */
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, opacity 0.3s ease;
+  pointer-events: all;
+  /* BUFF: Hide by default on large screens */
+  opacity: 0;
+}
+
+.courseCarousel__arrow:hover {
+  transform: scale(1.1);
+  background-color: #fff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  color: #7c1ae0;
+}
+
+/* BUFF: Show arrows on container hover on desktop */
+.courseCarousel__swiper:hover .courseCarousel__arrow {
+  opacity: 1;
+}
+
+/* Pagination outside Swiper — force centering */
+.courseCarousel__pagination {
+  position: relative;
+  margin-top: 14px;
+  width: 100%;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Kill Swiper's inline positioning */
+.courseCarousel__pagination.swiper-pagination {
+  left: auto !important;
+  right: auto !important;
+  transform: none !important;
+  bottom: auto !important;
+}
+
+/* Bullets (lowkey version) */
+.courseCarousel__pagination .swiper-pagination-bullet {
+  background-color: #e5e7eb; /* softer gray */
+  opacity: 1;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.courseCarousel__pagination .swiper-pagination-bullet-active {
+  background-color: #932df9;
+}
+
+/* Responsive tweaks */
+@media (max-width: 1024px) {
+  /* BUFF: Always show arrows on smaller screens where hover is unreliable */
+  .courseCarousel__arrow {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .courseCarousel__arrow {
+    width: 32px;
+    height: 32px;
+    font-size: 1.2rem;
+  }
+}

@@ -1,0 +1,75 @@
+/* --- FeaturesSection.css --- */
+.featHome {
+  padding: 2rem 0;
+}
+
+.featHome__container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 5vw, 32px);
+  text-align: center;
+}
+
+.featHome__title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+.featHome__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.featHome__card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 2rem;
+  
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  /* BUFF: Add border-color to transition */
+  transition: transform 0.2s ease, border-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.featHome__card:hover {
+  transform: translateY(-4px);
+  /* BUFF: Change border to accent color on hover */
+  border-color: #932df9;
+}
+
+.featHome__icon {
+  font-size: 2rem;
+  color: #932df9;
+  margin-bottom: 1rem;
+}
+
+.featHome__cardTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.featHome__cardDesc {
+  font-size: 1rem;
+  color: #475569;
+}
+.featHome::before {
+  content: "";
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, #7c3aed 0%, transparent 70%);
+  opacity: 0.1;
+  z-index: 0;
+}

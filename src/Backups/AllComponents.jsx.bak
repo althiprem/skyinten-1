@@ -1,0 +1,794 @@
+// /* --- C:\Users\Harsha\Desktop\SkyIntern\src\components\AuthModal.jsx --- */
+// import { useEffect, useState } from "react";
+// import {
+//   signInWithGoogle,
+//   signInWithGithub,
+//   signUpWithEmail,
+//   signInWithEmail,
+// } from "../config/firebase";
+// import { FaGithub, FaGoogle, FaTimes } from "react-icons/fa";
+// import "../styles/components/AuthModal.css";
+
+// const ANIM_MS = 800; // open/close duration
+// const SWITCH_MS = 500; // login <-> signup transition duration
+
+// export default function AuthModal({ isOpen, type, onClose, onSuccess }) {
+//   const [localType, setLocalType] = useState(type);
+//   const [show, setShow] = useState(false);
+//   const [closing, setClosing] = useState(false);
+//   const [switching, setSwitching] = useState(false); // controls login/signup transition
+//   const [loading, setLoading] = useState(false);
+//   const [error, setError] = useState("");
+
+//   // Open/close logic
+//   useEffect(() => {
+//     if (isOpen) {
+//       setLocalType(type);
+//       setShow(true);
+//       setClosing(false);
+//     } else if (show) {
+//       setClosing(true);
+//       const t = setTimeout(() => {
+//         setShow(false);
+//         setClosing(false);
+//         setError("");
+//       }, ANIM_MS);
+//       return () => clearTimeout(t);
+//     }
+//   }, [isOpen, type, show]);
+
+//   if (!show && !closing) return null;
+
+//   const handleClose = () => {
+//     setClosing(true);
+//     const t = setTimeout(() => {
+//       setShow(false);
+//       setClosing(false);
+//       setError("");
+//       onClose?.();
+//     }, ANIM_MS);
+//     return () => clearTimeout(t);
+//   };
+
+//   // Switch between login/signup smoothly
+//   const handleSwitchType = (newType) => {
+//     setSwitching(true);
+//     setTimeout(() => {
+//       setLocalType(newType);
+//       setSwitching(false);
+//     }, SWITCH_MS / 2); // halfway through fade-out, change type
+//   };
+
+//   // Email Auth
+//   const handleEmailAuth = async (e) => {
+//     e.preventDefault();
+//     setLoading(true);
+//     setError("");
+//     const formData = new FormData(e.target);
+//     const email = formData.get("email");
+//     const password = formData.get("password");
+//     const name = formData.get("name");
+
+//     try {
+//       let cred;
+//       if (localType === "signup") {
+//         cred = await signUpWithEmail(email, password, name);
+//       } else {
+//         cred = await signInWithEmail(email, password);
+//       }
+//       onSuccess?.(cred.user);
+//       handleClose();
+//     } catch (err) {
+//       setError(err.message || "Something went wrong. Please try again.");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   const handleGoogleSignIn = async () => {
+//     setLoading(true);
+//     setError("");
+//     try {
+//       const result = await signInWithGoogle();
+//       onSuccess?.(result.user);
+//       handleClose();
+//     } catch (err) {
+//       setError(err.message || "Google sign-in failed.");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   const handleGithubSignIn = async () => {
+//     setLoading(true);
+//     setError("");
+//     try {
+//       const result = await signInWithGithub();
+//       onSuccess?.(result.user);
+//       handleClose();
+//     } catch (err) {
+//       setError(err.message || "GitHub sign-in failed.");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   return (
+//     <div
+//       className={`authModal__overlay ${isOpen && !closing ? "show" : ""} ${
+//         closing ? "closing" : ""
+//       }`}
+//       onClick={handleClose}
+//     >
+//       <div
+//         className={`authModal__content ${isOpen && !closing ? "show" : ""} ${
+//           closing ? "closing" : ""
+//         }`}
+//         onClick={(e) => e.stopPropagation()}
+//       >
+//         <button className="authModal__close" onClick={handleClose}>
+//           <FaTimes size={18} />
+//         </button>
+
+//         <div className={`authModal__inner ${switching ? "switching" : ""}`}>
+//           <h2 className="authModal__title">
+//             {localType === "signup" ? "Create Your Account" : "Welcome Back"}
+//           </h2>
+//           <p className="authModal__subtitle">
+//             {localType === "signup"
+//               ? "Join Skyinten and start your journey."
+//               : "Log in to continue learning."}
+//           </p>
+
+//           {error && <div className="authModal__error">{error}</div>}
+
+//           <form className="authModal__form" onSubmit={handleEmailAuth}>
+//             {localType === "signup" && (
+//               <div className="authModal__field">
+//                 <label htmlFor="name">Full Name</label>
+//                 <input
+//                   id="name"
+//                   type="text"
+//                   name="name"
+//                   placeholder="Enter your full name"
+//                   autoComplete="name"
+//                   required
+//                 />
+//               </div>
+//             )}
+//             <div className="authModal__field">
+//               <label htmlFor="email">Email Address</label>
+//               <input
+//                 id="email"
+//                 type="email"
+//                 name="email"
+//                 placeholder="Enter your email address"
+//                 autoComplete="email"
+//                 required
+//               />
+//             </div>
+//             <div className="authModal__field">
+//               <label htmlFor="password">Password</label>
+//               <input
+//                 id="password"
+//                 type="password"
+//                 name="password"
+//                 placeholder="Enter your password"
+//                 autoComplete={
+//                   localType === "signup" ? "new-password" : "current-password"
+//                 }
+//                 required
+//               />
+//             </div>
+//             <button
+//               className="authModal__submit"
+//               type="submit"
+//               disabled={loading}
+//             >
+//               {loading
+//                 ? "Please wait..."
+//                 : localType === "signup"
+//                 ? "Sign Up"
+//                 : "Log In"}
+//             </button>
+//           </form>
+
+//           <div className="authModal__divider">
+//             <span>OR</span>
+//           </div>
+
+//           <div className="authModal__social">
+//             <button
+//               className="authModal__socialBtn google"
+//               onClick={handleGoogleSignIn}
+//               disabled={loading}
+//               type="button"
+//             >
+//               <FaGoogle /> Continue with Google
+//             </button>
+//             <button
+//               className="authModal__socialBtn github"
+//               onClick={handleGithubSignIn}
+//               disabled={loading}
+//               type="button"
+//             >
+//               <FaGithub /> Continue with GitHub
+//             </button>
+//           </div>
+
+//           <p className="authModal__switch">
+//             {localType === "signup" ? (
+//               <>
+//                 Already have an account?{" "}
+//                 <button
+//                   type="button"
+//                   className="authModal__link"
+//                   onClick={() => handleSwitchType("login")}
+//                 >
+//                   Log in
+//                 </button>
+//               </>
+//             ) : (
+//               <>
+//                 Don’t have an account?{" "}
+//                 <button
+//                   type="button"
+//                   className="authModal__link"
+//                   onClick={() => handleSwitchType("signup")}
+//                 >
+//                   Sign up
+//                 </button>
+//               </>
+//             )}
+//           </p>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+// /* --- C:\Users\Harsha\Desktop\SkyIntern\src\components\CourseCard.jsx --- */
+// // src/components/CourseCard.jsx
+// import { FaClock, FaSeedling, FaBookOpen, FaRocket } from "react-icons/fa";
+// import "../styles/components/CourseCard.css";
+
+// export default function CourseCard({ title, duration, level, image }) {
+//   // Pick icon based on level
+//   const getLevelIcon = () => {
+//     switch (level.toLowerCase()) {
+//       case "beginner":
+//         return <FaSeedling className="courseCard__metaIcon" />;
+//       case "intermediate":
+//         return <FaBookOpen className="courseCard__metaIcon" />;
+//       case "advanced":
+//         return <FaRocket className="courseCard__metaIcon" />;
+//       default:
+//         return <FaBookOpen className="courseCard__metaIcon" />;
+//     }
+//   };
+
+//   return (
+//     <div className="courseCard">
+//       <div className="courseCard__imageWrap">
+//         <img src={image} alt={title} className="courseCard__image" />
+//       </div>
+//       <div className="courseCard__content">
+//         <h4 className="courseCard__title">{title}</h4>
+//         <div className="courseCard__meta">
+//           <span className="courseCard__metaItem">
+//             <FaClock className="courseCard__metaIcon" /> {duration}
+//           </span>
+//           <span className="courseCard__separator">|</span>
+//           <span className="courseCard__metaItem">
+//             {getLevelIcon()} {level}
+//           </span>
+//         </div>
+//         <button className="courseCard__cta">Start Learning</button>
+//       </div>
+//     </div>
+//   );
+// }
+
+// /* --- C:\Users\Harsha\Desktop\SkyIntern\src\components\homepage\CourseCarousel\CourseCarousel.jsx --- */
+// import "../../../styles/components/CourseCarousel.css";
+// import { Swiper, SwiperSlide } from "swiper/react";
+// import "swiper/css";
+// import "swiper/css/pagination";
+// import { Pagination, Autoplay, Navigation } from "swiper/modules";
+// import CourseCard from "../../CourseCard.jsx";
+// import { useRef } from "react";
+
+// export default function CourseCarousel() {
+//   const prevRef = useRef(null);
+//   const nextRef = useRef(null);
+
+//   const courses = [
+//     {
+//       title: "Python Essentials",
+//       duration: "6h",
+//       level: "Beginner",
+//       image: "/images/courses/python.jpg",
+//     },
+//     {
+//       title: "Java Programming",
+//       duration: "8h",
+//       level: "Intermediate",
+//       image: "/images/courses/java.jpg",
+//     },
+//     {
+//       title: "AI & ML Foundations",
+//       duration: "10h",
+//       level: "Advanced",
+//       image: "/images/courses/ai.jpg",
+//     },
+//     {
+//       title: "Data Analysis with Pandas",
+//       duration: "7h",
+//       level: "Intermediate",
+//       image: "/images/courses/data.jpg",
+//     },
+//   ];
+
+//   return (
+//     <section className="courseCarousel">
+//       <div className="courseCarousel__container">
+//         <h3 className="courseCarousel__title">Explore Our Top Courses</h3>
+
+//         {/* Navigation Arrows */}
+//         <div className="courseCarousel__nav">
+//           <button
+//             ref={prevRef}
+//             className="courseCarousel__arrow courseCarousel__arrow--prev"
+//           >
+//             ‹
+//           </button>
+//           <button
+//             ref={nextRef}
+//             className="courseCarousel__arrow courseCarousel__arrow--next"
+//           >
+//             ›
+//           </button>
+//         </div>
+
+//         {/* Swiper + Pagination */}
+//         <div className="courseCarousel__swiperWrap">
+//           <Swiper
+//             modules={[Pagination, Autoplay, Navigation]}
+//             spaceBetween={32}
+//             slidesPerView={1}
+//             loop={true}
+//             speed={600}
+//             autoplay={{ delay: 3000, disableOnInteraction: false }}
+//             pagination={{
+//               el: ".swiper-pagination",
+//               clickable: true,
+//             }}
+//             navigation={{
+//               prevEl: prevRef.current,
+//               nextEl: nextRef.current,
+//             }}
+//             onInit={(swiper) => {
+//               swiper.params.navigation.prevEl = prevRef.current;
+//               swiper.params.navigation.nextEl = nextRef.current;
+//               swiper.navigation.init();
+//               swiper.navigation.update();
+//             }}
+//             breakpoints={{
+//               640: { slidesPerView: 1 },
+//               768: { slidesPerView: 2 },
+//               1024: { slidesPerView: 3 },
+//             }}
+//           >
+//             {courses.map((course) => (
+//               <SwiperSlide key={course.title}>
+//                 <CourseCard {...course} />
+//               </SwiperSlide>
+//             ))}
+//           </Swiper>
+
+//           {/* External Pagination */}
+//           <div className="swiper-pagination"></div>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// }
+
+// /* --- C:\Users\Harsha\Desktop\SkyIntern\src\components\homepage\CTABanner.jsx --- */
+// import { useState } from "react";
+// import "../../styles/components/CTABanner.css";
+// import AuthModal from "../AuthModal"; // adjust path if needed
+
+// const CTABanner = () => {
+//   const [isModalOpen, setIsModalOpen] = useState(false);
+
+//   return (
+//     <section className="ctaBanner">
+//       <div className="ctaBanner__container">
+//         <div className="ctaBanner__content">
+//           <h2 className="ctaBanner__headline">Start Your Surge</h2>
+//           <p className="ctaBanner__subtext">
+//             Join thousands of learners building momentum with Skyinten. Track
+//             progress, stay focused, and unlock your potential—starting now.
+//           </p>
+//         </div>
+
+//         {/* Keep <a> so CSS styling is unchanged */}
+//         <a
+//           href="#"
+//           className="ctaBanner__button"
+//           onClick={(e) => {
+//             e.preventDefault(); // stop navigation
+//             setIsModalOpen(true);
+//           }}
+//         >
+//           Create Your Account
+//         </a>
+//       </div>
+
+//       {/* Signup Modal */}
+//       <AuthModal
+//         isOpen={isModalOpen}
+//         type="signup"
+//         onClose={() => setIsModalOpen(false)}
+//         onSuccess={(user) => {
+//           console.log("Signed up:", user);
+//           setIsModalOpen(false);
+//         }}
+//       />
+//     </section>
+//   );
+// };
+
+// export default CTABanner;
+
+// /* --- C:\Users\Harsha\Desktop\SkyIntern\src\components\homepage\FeaturesSection.jsx --- */
+// // src/components/homepage/FeaturesSection.jsx
+// import "../../styles/components/FeaturesSection.css";
+// import {
+//   FaGraduationCap,
+//   FaLaptopCode,
+//   FaTrophy,
+//   FaBullseye,
+//   FaChartLine,
+//   FaLayerGroup,
+// } from "react-icons/fa";
+
+// export default function FeaturesSection() {
+//   const items = [
+//     {
+//       icon: <FaGraduationCap className="featHome__icon" />,
+//       title: "Elite Course Tracks",
+//       desc: "Industry-vetted, outcome-driven, and constantly updated. No filler. Just mastery.",
+//     },
+//     {
+//       icon: <FaLaptopCode className="featHome__icon" />,
+//       title: "Real-World Projects",
+//       desc: "Build what companies actually care about. Every module ends with something you can ship.",
+//     },
+//     {
+//       icon: <FaTrophy className="featHome__icon" />,
+//       title: "Internships & Hackathons",
+//       desc: "Get matched, get ranked, get hired. We turn effort into exposure.",
+//     },
+//     {
+//       icon: <FaBullseye className="featHome__icon" />,
+//       title: "Progress Engine",
+//       desc: "Smart streaks, weekly check-ins, and goal tracking that actually motivates.",
+//     },
+//     {
+//       icon: <FaChartLine className="featHome__icon" />,
+//       title: "Achievement Vault",
+//       desc: "Certifications, wins, and milestones — all in one place, ready to impress.",
+//     },
+//     {
+//       icon: <FaLayerGroup className="featHome__icon" />,
+//       title: "Unified Dashboard",
+//       desc: "Courses, goals, internships, and stats — one clean, customizable control panel.",
+//     },
+//   ];
+
+//   return (
+//     <section id="features" className="featHome">
+//       <div className="featHome__container">
+//         <h3 className="featHome__title">Why Top Learners Choose Us</h3>
+//         <div className="featHome__grid">
+//           {items.map((f) => (
+//             <div key={f.title} className="featHome__card">
+//               {f.icon}
+//               <h4 className="featHome__cardTitle">{f.title}</h4>
+//               <p className="featHome__cardDesc">{f.desc}</p>
+//             </div>
+//           ))}
+//         </div>
+//       </div>
+//     </section>
+//   );
+// }
+
+// /* --- C:\Users\Harsha\Desktop\SkyIntern\src\components\homepage\FooterHome.jsx --- */
+// import React from "react";
+// import "../../styles/components/FooterHome.css";
+// import logo from "../../assets/icons/skyinten-white-vector.svg";
+// import { FaTwitter, FaLinkedinIn, FaYoutube } from "react-icons/fa";
+
+// export default function FooterHome() {
+//   const year = new Date().getFullYear();
+
+//   return (
+//     <footer className="footHome">
+//   <div className="footHome__container">
+//     {/* Brand Column */}
+//     <div className="footHome__brand">
+//       <div className="footHome__brandRow">
+//         <img src={logo} alt="Skyinten Logo" className="footHome__logo" />
+//         <span className="footHome__brandName">Skyinten</span>
+//       </div>
+//       <p className="footHome__tagline">Where ambition meets execution.</p>
+//     </div>
+
+//     {/* Center Column */}
+//     <div className="footHome__centerBlock">
+//       <nav className="footHome__links">
+//         <a href="#">Features</a>
+//         <a href="#">Courses</a>
+//         <a href="#">Hackathons</a>
+//         <a href="#">Privacy</a>
+//       </nav>
+//       <div className="footHome__bottom">
+//         © 2025 Skyinten. All rights reserved.
+//       </div>
+//     </div>
+
+//     {/* CTA Column */}
+//     <div className="footHome__right">
+//       <div className="footHome__cta">
+//         <span className="footHome__ctaText">Ready to rise?</span>
+//         <a href="#" className="footHome__ctaBtn">Explore Courses →</a>
+//       </div>
+//       <div className="footHome__socials">
+//         <a href="#"><i className="fab fa-twitter" /></a>
+//         <a href="#"><i className="fab fa-linkedin" /></a>
+//         <a href="#"><i className="fab fa-youtube" /></a>
+//       </div>
+//     </div>
+//   </div>
+// </footer>
+
+//   );
+// }
+
+// /* --- C:\Users\Harsha\Desktop\SkyIntern\src\components\homepage\HeroSection.jsx --- */
+// import { useState } from "react";
+// import "../../styles/components/HeroSection.css";
+// import { HiArrowNarrowRight } from "react-icons/hi";
+// import { GiOpenBook } from "react-icons/gi";
+// import AuthModal from "../AuthModal"; // adjust import path if needed
+
+// export default function HeroSection() {
+//   const [isModalOpen, setIsModalOpen] = useState(false);
+
+//   return (
+//     <section className="heroHome" aria-labelledby="heroTitle">
+//       <div className="heroHome__bgLayer" aria-hidden="true"></div>
+
+//       <div className="heroHome__container">
+//         <div className="heroHome__caption">
+//           <h1 id="heroTitle" className="heroHome__title">
+//             Learn. Build. Achieve.
+//           </h1>
+//           <p className="heroHome__subtitle">
+//             Track your progress, master new skills, and stay ahead in every
+//             challenge.
+//           </p>
+
+//           <div className="heroHome__actions">
+//             <button
+//               className="heroHome__btn heroHome__btn--primary"
+//               aria-label="Start learning now"
+//               onClick={() => setIsModalOpen(true)}
+//             >
+//               Get Started
+//               <HiArrowNarrowRight className="heroHome__btnIcon heroHome__btnIcon--end" />
+//             </button>
+//             <button
+//               className="heroHome__btn heroHome__btn--ghost"
+//               aria-label="Browse available courses"
+//             >
+//               <GiOpenBook className="heroHome__btnIcon" />
+//               Explore Courses
+//             </button>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* Signup Modal */}
+//       <AuthModal
+//         isOpen={isModalOpen}
+//         type="signup"
+//         onClose={() => setIsModalOpen(false)}
+//         onSuccess={(user) => {
+//           console.log("Signed up:", user);
+//           setIsModalOpen(false);
+//         }}
+//       />
+//     </section>
+//   );
+// }
+
+// /* --- C:\Users\Harsha\Desktop\SkyIntern\src\components\homepage\NavbarHome.jsx --- */
+// import { useState, useEffect } from "react";
+// import {
+//   FaHome,
+//   FaBook,
+//   FaQuoteRight,
+//   FaEnvelope,
+//   FaSignInAlt,
+//   FaUserPlus,
+//   FaBars,
+//   FaTimes,
+// } from "react-icons/fa";
+// import SkyintenLogo from "../../assets/icons/skyinten-violet-vector.svg";
+// import "../../styles/components/NavbarHome.css";
+
+// export default function NavbarHome({ openModal }) {
+//   const [open, setOpen] = useState(false);
+
+//   useEffect(() => {
+//     const handleResize = () => {
+//       if (window.innerWidth > 768 && open) {
+//         setOpen(false);
+//       }
+//     };
+//     window.addEventListener("resize", handleResize);
+//     return () => window.removeEventListener("resize", handleResize);
+//   }, [open]);
+
+//   const links = [
+//     { id: 1, href: "#", icon: <FaHome />, text: "Home" },
+//     { id: 2, href: "#courses", icon: <FaBook />, text: "Courses" },
+//     { id: 3, href: "#", icon: <FaQuoteRight />, text: "Hackathons" },
+//     { id: 4, href: "#contact", icon: <FaEnvelope />, text: "Contact" },
+//   ];
+
+//   return (
+//     <header className="navHome">
+//       <div className="navHome__inner">
+//         {/* Brand */}
+//         <a href="#" className="navHome__brand">
+//           <img
+//             src={SkyintenLogo}
+//             alt="Skyinten Logo"
+//             className="navHome__brandIcon"
+//           />
+//           <span className="navHome__brandText">Skyinten</span>
+//         </a>
+
+//         {/* Centered Links */}
+//         <div className="navHome__centerWrap">
+//           <ul className="navHome__links">
+//             {links.map((link) => (
+//               <li key={link.id}>
+//                 <a href={link.href}>
+//                   {link.icon} {link.text}
+//                 </a>
+//               </li>
+//             ))}
+//           </ul>
+//         </div>
+
+//         {/* Desktop Actions */}
+//         <div className="navHome__actions">
+//           <button
+//             type="button"
+//             className="navHome__btn navHome__btn--ghost"
+//             onClick={() => openModal("login")}
+//           >
+//             <FaSignInAlt /> Log in
+//           </button>
+//           <button
+//             type="button"
+//             className="navHome__btn navHome__btn--primary"
+//             onClick={() => openModal("signup")}
+//           >
+//             <FaUserPlus /> Sign up
+//           </button>
+//         </div>
+
+//         {/* Mobile Toggle */}
+//         <button
+//           type="button"
+//           className="navHome__toggle"
+//           aria-label="Toggle menu"
+//           onClick={() => setOpen((prev) => !prev)}
+//         >
+//           {open ? <FaTimes /> : <FaBars />}
+//         </button>
+//       </div>
+
+//       {/* Mobile Menu */}
+//       <div className={`navHome__menu ${open ? "open" : ""}`}>
+//         <ul className="navHome__menuLinks">
+//           {links.map((link) => (
+//             <li key={link.id}>
+//               <a href={link.href} onClick={() => setOpen(false)}>
+//                 {link.icon} {link.text}
+//               </a>
+//             </li>
+//           ))}
+//         </ul>
+//         <div className="navHome__mobileActions">
+//           <button
+//             type="button"
+//             className="navHome__btn navHome__btn--ghost"
+//             onClick={() => {
+//               setOpen(false);
+//               setTimeout(() => openModal("login"), 200);
+//             }}
+//           >
+//             <FaSignInAlt /> Log in
+//           </button>
+//           <button
+//             type="button"
+//             className="navHome__btn navHome__btn--primary"
+//             onClick={() => {
+//               setOpen(false);
+//               setTimeout(() => openModal("signup"), 200);
+//             }}
+//           >
+//             <FaUserPlus /> Sign up
+//           </button>
+//         </div>
+//       </div>
+//     </header>
+//   );
+// }
+
+// /* --- C:\Users\Harsha\Desktop\SkyIntern\src\components\homepage\Testimonial.jsx --- */
+// import React from "react";
+// import "../../styles/components/testimonial.css";
+
+// const testimonials = [
+//   {
+//     name: "Meera K",
+//     role: "Career Switcher, Hyderabad",
+//     quote:
+//       "I was stuck in analysis paralysis. Skyinten gave me clarity, structure, and momentum.",
+//     avatar: "/avatars/meera.png",
+//   },
+//   {
+//     name: "Karthik Raj",
+//     role: "CS Student, Vizag",
+//     quote:
+//       "Every module felt like a power-up. I finally understood how to build, not just learn.",
+//     avatar: "/avatars/karthik.png",
+//   },
+//   {
+//     name: "Rohan Das",
+//     role: "Bootcamp Grad, Kakinada",
+//     quote:
+//       "I’ve tried 7 platforms. Only Skyinten made me consistent. That’s the real win.",
+//     avatar: "/avatars/rohan.png",
+//   },
+// ];
+
+// const Testimonial = () => (
+//   <section className="testimonial-section">
+//     <h2 className="testimonial-heading">Real Voices. Real Impact.</h2>
+//     <div className="testimonial-grid">
+//       {testimonials.map((t, i) => (
+//         <div key={i} className="testimonial-card">
+//           <img src={t.avatar} alt={t.name} className="testimonial-avatar" />
+//           <p className="testimonial-quote">“{t.quote}”</p>
+//           <div className="testimonial-meta">
+//             <strong>{t.name}</strong>
+//             <span className="testimonial-role">{t.role}</span>
+//           </div>
+//         </div>
+//       ))}
+//     </div>
+//   </section>
+// );
+
+// export default Testimonial;
+

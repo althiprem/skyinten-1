@@ -1,0 +1,146 @@
+/* --- HeroSection.css --- */
+/* Hero base */
+.heroHome {
+  position: relative;
+  padding: 72px 0;
+  overflow: hidden;
+}
+
+/* Removed animated background layer and keyframes */
+
+/* Content container */
+.heroHome__container {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 5vw, 32px);
+  text-align: center;
+}
+
+/* Caption block */
+.heroHome__caption {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* Title */
+.heroHome__title {
+  font-size: clamp(2.25rem, 5vw, 3rem);
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+}
+
+/* Subtitle */
+.heroHome__subtitle {
+  font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+  color: #475569;
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
+
+/* Action buttons wrapper */
+.heroHome__actions {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Button base */
+.heroHome__btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid #cbd5e1;
+  background: linear-gradient(to bottom, #ffffff, #f9fafb);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  user-select: none;
+}
+
+.heroHome__btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  background: linear-gradient(to bottom, #f3f4f6, #e5e7eb);
+}
+
+.heroHome__btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+/* Primary button */
+.heroHome__btn--primary {
+  background: linear-gradient(to bottom, #932df9, #7e22ce);
+  color: #fff;
+  border-color: #932df9;
+  box-shadow: 0 2px 6px rgba(147, 45, 249, 0.3);
+}
+
+.heroHome__btn--primary:hover {
+  background: linear-gradient(to bottom, #7e22ce, #6b21a8);
+  box-shadow: 0 6px 16px rgba(147, 45, 249, 0.4);
+}
+
+/* Ghost button */
+.heroHome__btn--ghost {
+  background: #f3f4f6;
+  color: #2563eb;
+  border-color: #fdfeff;
+}
+
+.heroHome__btn--ghost:hover {
+  background: #e5e7eb;
+  /* BUFF: Stronger, color-coordinated box-shadow on hover */
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.15);
+}
+
+/* Button icons */
+.heroHome__btnIcon {
+  font-size: 1.3rem;
+  color: inherit;
+  margin-right: 8px;
+}
+
+.heroHome__btnIcon--end {
+  margin-left: 8px;
+  margin-right: 0;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .heroHome__btn {
+    width: 100%;
+    font-size: 1.05rem;
+    padding: 12px 16px;
+  }
+
+  .heroHome__title {
+    font-size: 2rem;
+  }
+
+  .heroHome__subtitle {
+    font-size: 1rem;
+  }
+}
+
+.heroHome::before {
+  content: "";
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, #7c3aed 0%, transparent 70%);
+  opacity: 0.1;
+  z-index: 0;
+}
