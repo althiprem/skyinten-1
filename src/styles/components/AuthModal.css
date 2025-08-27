@@ -282,3 +282,24 @@
     padding: 1.25rem;
   }
 }
+
+
+.authModal__forgot {
+  text-align: right;
+  margin-top: 4px;
+  font-size: 0.9rem;
+}
+.authModal__forgot .authModal__link {
+  color: #6d28d9;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+.authModal__forgot .authModal__link:hover {
+  text-decoration: underline;
+}
+.authModal__forgot .authModal__link:focus {
+  outline: 3px solid #7e22ce;
+  border-radius: 4px;
+}

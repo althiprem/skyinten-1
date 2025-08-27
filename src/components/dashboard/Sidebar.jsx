@@ -43,6 +43,15 @@ const Sidebar = ({
       navigate("/payment")
     }
   };
+     const handleLogout = () => {
+    // 🔹 Clear auth state
+       localStorage.removeItem("isLoggedIn");
+       localStorage.removeItem("user");
+
+    // 🔹 Redirect to Home
+        navigate("/#");
+  };
+
 
   const menuItems = [
     { key: "home", label: "Home", icon: <FaHome /> },
@@ -78,16 +87,13 @@ const Sidebar = ({
             </li>
           ))}
           <li className="sidebar__list-item sidebar__logout">
-            <button
-              className="sidebar__link"
-              onClick={() => console.log("Logout clicked")}
-            >
-              <span className="sidebar__icon">
-                <FaSignOutAlt />
-              </span>
-              <span className="sidebar__label">Logout</span>
-            </button>
-          </li>
+        <button className="sidebar__link" onClick={handleLogout}>
+          <span className="sidebar__icon">
+            <FaSignOutAlt />
+          </span>
+          <span className="sidebar__label">Logout</span>
+        </button>
+      </li>
         </ul>
       </nav>
     </aside>

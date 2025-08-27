@@ -111,6 +111,16 @@
   transform: scale(0.97);
 }
 
+
+.activeLink {
+  color: #facc15; /* yellow */
+  font-weight: bold;
+}
+.activeLink::after {
+  width: 100%;
+  background-color: #facc15;
+}
+
 /* Desktop actions */
 .navHome__actions {
   display: flex;

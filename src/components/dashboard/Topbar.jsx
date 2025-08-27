@@ -30,6 +30,13 @@ const Topbar = ({
     return () => document.removeEventListener("mousedown", onDocClick);
   }, []);
 
+  const handleLogout = () =>{
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("user");
+    window.location.href = "/#";
+  }
+  
+
   return (
     <header className="topbar">
       <div className="topbar__left">
@@ -63,6 +70,7 @@ const Topbar = ({
         <button className="topbar__notification" aria-label="Notifications">
           <FaBell />
         </button>
+        
         <div className="topbar__profile" ref={profileRef}>
           <button
             className="topbar__avatar-btn"
@@ -96,7 +104,7 @@ const Topbar = ({
               </div>
               <button
                 className="topbar__dropdown-item logout"
-                onClick={() => console.log("Logout clicked")}
+                onClick={() => handleLogout("Logout clicked")}
               >
                 <FaSignOutAlt />
                 <span>Logout</span>
