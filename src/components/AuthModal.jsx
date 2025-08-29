@@ -84,11 +84,12 @@ export default function AuthModal({ isOpen, type, onClose, onSuccess }) {
     }
 
     try {
-      const res = await axios.post(
-        "http://localhost/skyintern/php/db.php",
-        { action: localType, email, password, name },
-        { headers: { "Content-Type": "application/json" } }
-      );
+      axios.post("http://localhost/Skyintern/php/db.php", {
+        action: localType, // login or signup
+        email,
+        password,
+        name,
+      });
 
 
       if (res.data.success) {
