@@ -84,12 +84,12 @@ export default function AuthModal({ isOpen, type, onClose, onSuccess }) {
     }
 
     try {
-      const res = await axios.post("http://localhost/skyintern/php/db.php", {
-        action: localType, // 👈 send login/signup
-        email,
-        password,
-        name,
-      });
+      const res = await axios.post(
+        "http://localhost/skyintern/php/db.php",
+        { action: localType, email, password, name },
+        { headers: { "Content-Type": "application/json" } }
+      );
+
 
       if (res.data.success) {
         onSuccess?.(res.data);
@@ -136,20 +136,7 @@ export default function AuthModal({ isOpen, type, onClose, onSuccess }) {
     }
   };
 
-  //for php connection
-  const handleLogin = async (email, password) => {
-    try {
-      const res = await axios.post("http://localhost/skyintern/php/db.php", {
-        email,
-        password
-      });
 
-      console.log(res.data);
-      // { success: true, message: "Login successful" }
-    } catch (err) {
-      console.error("API error:", err);
-    }
-  };
 
 
   return (
