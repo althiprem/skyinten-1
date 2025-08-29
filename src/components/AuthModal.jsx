@@ -65,18 +65,19 @@ export default function AuthModal({ isOpen, type, onClose, onSuccess }) {
       setSwitching(false);
     }, SWITCH_MS / 2); // halfway through fade-out, change type
   };
-
-  // Email Auth
+  //email 
   const handleEmailAuth = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
+
     const formData = new FormData(e.target);
     const email = formData.get("email");
     const password = formData.get("password");
     const name = formData.get("name");
     const confirmPassword = formData.get("confirmPassword");
 
+    // Validate passwords for signup
     if (localType === "signup" && password !== confirmPassword) {
       setError("Passwords do not match.");
       setLoading(false);
@@ -84,14 +85,15 @@ export default function AuthModal({ isOpen, type, onClose, onSuccess }) {
     }
 
     try {
-      axios.post("http://localhost/Skyintern/php/db.php", {
-        action: localType, // login or signup
+      // Corrected: await the response and match folder name
+      const res = await axios.post("http://localhost/Skyintern/php/db.php", {
+        action: localType, // "login" or "signup"
         email,
         password,
         name,
       });
 
-
+      // Handle PHP response
       if (res.data.success) {
         onSuccess?.(res.data);
         handleClose();
@@ -100,11 +102,22 @@ export default function AuthModal({ isOpen, type, onClose, onSuccess }) {
         setError(res.data.message);
       }
     } catch (err) {
-      setError("Server error: " + err.message);
+      if (err.response) {
+        // Server responded with error
+        setError("Server error: " + (err.response.data.message || err.response.statusText));
+      } else if (err.request) {
+        // No response from server
+        setError("Server did not respond. Please check XAMPP and PHP server.");
+      } else {
+        // Other errors
+        setError("Error: " + err.message);
+      }
     } finally {
       setLoading(false);
     }
   };
+
+
 
 
   const handleGoogleSignIn = async () => {
@@ -136,8 +149,6 @@ export default function AuthModal({ isOpen, type, onClose, onSuccess }) {
       setLoading(false);
     }
   };
-
-
 
 
   return (
