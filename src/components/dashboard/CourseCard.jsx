@@ -1,8 +1,9 @@
+// src/components/courses/CourseCard.jsx
 import React from "react";
-import { FaPlayCircle, FaCheckCircle, FaLock } from "react-icons/fa";
+import { FaPlayCircle, FaCheckCircle } from "react-icons/fa";
 import "../../styles/components/dashcoursecard.css";
 
-const CourseCard = ({ course, onResume }) => {
+const CourseCard = ({ course, onResume, onPayment }) => {
   const isCompleted = course.progress === 100;
 
   return (
@@ -16,12 +17,15 @@ const CourseCard = ({ course, onResume }) => {
         <div className="course-card__overlay">
           <button
             className="course-card__play-btn"
-            onClick={() => onResume(course.id)}
+            onClick={() =>
+              course.isPaid ? onResume(course.id) : onPayment(course.id)
+            }
           >
             <FaPlayCircle />
           </button>
         </div>
       </div>
+
       <div className="course-card__content">
         <h4 className="course-card__title">{course.title}</h4>
         <div className="course-card__progress">
@@ -30,27 +34,38 @@ const CourseCard = ({ course, onResume }) => {
             style={{ width: `${course.progress}%` }}
           />
         </div>
+
         <div className="course-card__meta">
           <span className="course-card__progress-text">
             {isCompleted ? (
               <>
-                <FaCheckCircle className="icon-completed" />
-                Completed
+                <FaCheckCircle className="icon-completed" /> Completed
               </>
             ) : (
               `${course.progress}% Complete`
             )}
           </span>
-          <button
-            className="course-card__action-btn"
-            onClick={() => onResume(course.id)}
-          >
-            {isCompleted
-              ? "Review"
-              : course.progress > 0
-              ? "Continue"
-              : "Start"}
-          </button>
+
+          {/* 🔑 Action button changes based on payment */}
+          {course.isPaid ? (
+            <button
+              className="course-card__action-btn"
+              onClick={() => onResume(course.id)}
+            >
+              {isCompleted
+                ? "Review"
+                : course.progress > 0
+                ? "Continue"
+                : "Start"}
+            </button>
+          ) : (
+            <button
+              className="course-card__action-btn course-card__locked"
+              onClick={() => onPayment(course.id)}
+            >
+              Please Make Payment
+            </button>
+          )}
         </div>
       </div>
     </div>

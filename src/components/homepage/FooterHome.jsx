@@ -23,7 +23,7 @@ export default function FooterHome() {
     {/* Center Column */}
     <div className="footHome__centerBlock">
       <nav className="footHome__links">
-        <a href="#">Features</a>
+        <a href="">Features</a>
         <a href="#">Courses</a>
         <a href="#">Hackathons</a>
         <a href="#">Privacy</a>

@@ -1,57 +1,19 @@
+// src/pages/Dashboard.jsx
 import React, { useState, useEffect, useRef } from "react";
 import "../styles/pages/Dashboard.css";
 import Sidebar from "../components/dashboard/Sidebar";
 import Topbar from "../components/dashboard/Topbar";
 import DashHome from "../components/dashboard/DashHome";
-import CourseGrid from "../components/dashboard/CourseGrid";
 import Profile from "../components/dashboard/Profile";
 import Accomplishments from "../components/dashboard/Accomplishments";
-import avatar from '../assets/images/naruto.png'
+import MyCourses from "../components/dashboard/MyCourse"
+import avatar from "../assets/images/naruto.png";
 
 const Dashboard = () => {
   const [currentSection, setCurrentSection] = useState("home");
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [showSidebar, setShowSidebar] = useState(false);
   const sidebarRef = useRef(null);
-
-  const purchasedCourses = [
-    {
-      id: 1,
-      title: "React Mastery",
-      thumbnail: "/images/courses/react.jpg",
-      progress: 45,
-    },
-    {
-      id: 2,
-      title: "Advanced CSS",
-      thumbnail: "/images/courses/css.jpg",
-      progress: 100,
-    },
-    {
-      id: 3,
-      title: "Node.js API Design",
-      thumbnail: "/images/courses/node.jpg",
-      progress: 10,
-    },
-    {
-      id: 4,
-      title: "Data Structures & Algorithms",
-      thumbnail: "/images/courses/dsa.jpg",
-      progress: 75,
-    },
-    {
-      id: 5,
-      title: "Python for Data Science",
-      thumbnail: "/images/courses/python.jpg",
-      progress: 30,
-    },
-    {
-      id: 6,
-      title: "Cybersecurity Fundamentals",
-      thumbnail: "/images/courses/cyber.jpg",
-      progress: 0,
-    },
-  ];
 
   const hackathon = {
     title: "AI Builders Hackathon",
@@ -63,21 +25,19 @@ const Dashboard = () => {
     banner: "/images/hackathons/ai-builders-banner.jpg",
   };
 
+  // Handle responsive sidebar
   useEffect(() => {
     const handleResize = () => {
       const mobile = window.innerWidth < 1024;
       setIsMobile(mobile);
-      if (!mobile) {
-        setShowSidebar(true);
-      } else {
-        setShowSidebar(false);
-      }
+      setShowSidebar(!mobile);
     };
     window.addEventListener("resize", handleResize);
     handleResize();
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // Close sidebar on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -90,9 +50,7 @@ const Dashboard = () => {
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isMobile, showSidebar]);
 
   const handleMenuToggle = () => setShowSidebar((prev) => !prev);
@@ -100,42 +58,21 @@ const Dashboard = () => {
   const renderSection = () => {
     switch (currentSection) {
       case "home":
-        return (
-          <DashHome
-            userName=" "
-            onNavigate={setCurrentSection}
-            purchasedCourses={purchasedCourses}
-            hackathon={hackathon}
-          />
-        );
+        return <DashHome userName="" onNavigate={setCurrentSection} hackathon={hackathon} />;
       case "courses":
-        return (
-          <CourseGrid
-            purchasedCourses={purchasedCourses}
-            onNavigate={setCurrentSection}
-          />
-        );
+        return <MyCourses />; // ✅ show unlocked courses from coursesData.js
       case "profile":
         return <Profile />;
       case "achievements":
         return <Accomplishments />;
       default:
-        return (
-          <DashHome
-            userName=""
-            onNavigate={setCurrentSection}
-            purchasedCourses={purchasedCourses}
-            hackathon={hackathon}
-          />
-        );
+        return <DashHome userName="" onNavigate={setCurrentSection} hackathon={hackathon} />;
     }
   };
 
   return (
     <div className="dashboard">
-      {isMobile && showSidebar && (
-        <div className="overlay" onClick={() => setShowSidebar(false)} />
-      )}
+      {isMobile && showSidebar && <div className="overlay" onClick={() => setShowSidebar(false)} />}
       <Sidebar
         sidebarRef={sidebarRef}
         currentSection={currentSection}
