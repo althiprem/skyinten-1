@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaGraduationCap, FaCode, FaCertificate, FaStar } from "react-icons/fa";
 import "../../styles/components/accomplishments.css";
+import BackButton from "../BackButton";
 
 const Achievements = () => {
   const [achievements, setAchievements] = useState([]);
@@ -100,6 +101,9 @@ const Achievements = () => {
 
   return (
     <div className="accomplishments">
+       <div className="absolute top-6" style={{ right: '2in' }}>
+        <BackButton />
+      </div>
       <h1 className="accomplishments__header">My Achievements</h1>
       {Object.keys(grouped).length > 0 ? (
         Object.keys(grouped).map((category) => (

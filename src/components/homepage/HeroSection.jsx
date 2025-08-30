@@ -36,8 +36,7 @@ export default function HeroSection() {
               className="heroHome__btn heroHome__btn--ghost"
               aria-label="Browse available courses"
             >
-              <GiOpenBook className="heroHome__btnIcon" />
-              Explore Courses
+              <a href="/courses" className="footHome__ctaBtn">Explore Courses →</a>
             </button>
           </div>
         </div>

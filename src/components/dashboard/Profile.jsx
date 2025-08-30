@@ -9,6 +9,9 @@ import {
   FaExclamationTriangle,
   FaPencilAlt,
 } from "react-icons/fa";
+import BackButton from "../BackButton";
+
+
 
 // Mock profile data
 const demoProfileData = {
@@ -88,6 +91,10 @@ const Profile = () => {
   const [editingSection, setEditingSection] = useState(null);
 
   // Individual states for editable fields
+  const [name, setName] = useState("");
+  const [headline, setHeadline] = useState("");
+  const [location, setLocation] = useState("");
+  const [contact, setContact] = useState({});
   const [summary, setSummary] = useState("");
   const [skills, setSkills] = useState([]);
   const [workExperience, setWorkExperience] = useState([]);
@@ -98,6 +105,10 @@ const Profile = () => {
       setTimeout(() => {
         try {
           setProfileData(demoProfileData);
+          setName(demoProfileData.name);
+          setHeadline(demoProfileData.headline);
+          setLocation(demoProfileData.location);
+          setContact(demoProfileData.contact);
           setSummary(demoProfileData.summary);
           setSkills(demoProfileData.skills);
           setWorkExperience(demoProfileData.workExperience);
@@ -107,7 +118,7 @@ const Profile = () => {
         } finally {
           setLoading(false);
         }
-      }, 1500); // 1.5-second delay to mimic network latency
+      }, 1500);
     };
 
     fetchProfileData();
@@ -118,24 +129,29 @@ const Profile = () => {
   };
 
   const handleSave = () => {
-    // Here you would typically make an API call to save the changes
-    // For this demo, we'll just log the updated data
     console.log("Saving changes:", {
+      name,
+      headline,
+      location,
+      contact,
       summary,
       skills,
       workExperience,
       education,
     });
-    setEditingSection(null); // Exit edit mode
+    setEditingSection(null);
   };
 
   const handleCancel = () => {
-    // Reset local state to the last saved data
+    setName(profileData.name);
+    setHeadline(profileData.headline);
+    setLocation(profileData.location);
+    setContact(profileData.contact);
     setSummary(profileData.summary);
     setSkills(profileData.skills);
     setWorkExperience(profileData.workExperience);
     setEducation(profileData.education);
-    setEditingSection(null); // Exit edit mode
+    setEditingSection(null);
   };
 
   if (loading) {
@@ -157,31 +173,120 @@ const Profile = () => {
   }
 
   return (
+    
     <div className="profile-container">
+      <div className="absolute top-6" style={{ right: "2in" }}>
+        <BackButton />
+      </div>
+   
+      {/* Profile Header with Edit */}
       <div className="profile-header">
-        <div className="profile-header__avatar">
-          <img src={profileData.contact.avatar} alt="User Avatar" />
-        </div>
-        <div className="profile-header__info">
-          <h1 className="profile-header__name">{profileData.name}</h1>
-          <p className="profile-header__headline">{profileData.headline}</p>
-          <p className="profile-header__location">{profileData.location}</p>
-        </div>
+        {editingSection === "profileHeader" ? (
+          <div className="edit-form">
+            <input
+              type="text"
+              className="edit-input"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Name"
+            />
+            <input
+              type="text"
+              className="edit-input"
+              value={headline}
+              onChange={(e) => setHeadline(e.target.value)}
+              placeholder="Headline"
+            />
+            <input
+              type="text"
+              className="edit-input"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              placeholder="Location"
+            />
+            <div className="edit-actions">
+              <button className="btn btn-save" onClick={handleSave}>
+                Save
+              </button>
+              <button className="btn btn-cancel" onClick={handleCancel}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        ) : (
+          <>
+            <div className="profile-header__avatar">
+              <img src={contact.avatar} alt="User Avatar" />
+            </div>
+            <div className="profile-header__info">
+              <h1 className="profile-header__name">{name}</h1>
+              <p className="profile-header__headline">{headline}</p>
+              <p className="profile-header__location">{location}</p>
+            </div>
+            <button
+              className="edit-btn"
+              onClick={() => handleEdit("profileHeader")}
+            >
+              <FaPencilAlt /> Edit
+            </button>
+          </>
+        )}
       </div>
 
       <div className="profile-main">
-        {/* Contact Information Section (Read-only) */}
+        {/* Contact Information Section (Editable) */}
         <ProfileSection
           title="Contact Information"
           icon={<FaUserCircle className="section-icon" />}
+          onEdit={() => handleEdit("contact")}
         >
-          <div className="contact-info">
-            <p>Email: {profileData.contact.email}</p>
-            <p>Phone: {profileData.contact.phone}</p>
-          </div>
+          {editingSection === "contact" ? (
+            <div className="edit-form">
+              <input
+                type="text"
+                className="edit-input"
+                value={contact.email}
+                onChange={(e) =>
+                  setContact({ ...contact, email: e.target.value })
+                }
+                placeholder="Email"
+              />
+              <input
+                type="text"
+                className="edit-input"
+                value={contact.phone}
+                onChange={(e) =>
+                  setContact({ ...contact, phone: e.target.value })
+                }
+                placeholder="Phone"
+              />
+              <input
+                type="text"
+                className="edit-input"
+                value={contact.avatar}
+                onChange={(e) =>
+                  setContact({ ...contact, avatar: e.target.value })
+                }
+                placeholder="Avatar URL"
+              />
+              <div className="edit-actions">
+                <button className="btn btn-save" onClick={handleSave}>
+                  Save
+                </button>
+                <button className="btn btn-cancel" onClick={handleCancel}>
+                  Cancel
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="contact-info">
+              <p>Email: {contact.email}</p>
+              <p>Phone: {contact.phone}</p>
+            </div>
+          )}
         </ProfileSection>
 
-        {/* Professional Summary Section (Editable) */}
+        {/* Professional Summary Section */}
         <ProfileSection
           title="Professional Summary"
           icon={<FaBriefcase className="section-icon" />}
@@ -208,7 +313,7 @@ const Profile = () => {
           )}
         </ProfileSection>
 
-        {/* Key Skills Section (Editable) */}
+        {/* Key Skills Section */}
         <ProfileSection
           title="Key Skills"
           icon={<FaCode className="section-icon" />}
@@ -243,7 +348,7 @@ const Profile = () => {
           )}
         </ProfileSection>
 
-        {/* Work Experience Section (Simplified Edit) */}
+        {/* Work Experience Section */}
         <ProfileSection
           title="Work Experience"
           icon={<FaBriefcase className="section-icon" />}
@@ -251,10 +356,7 @@ const Profile = () => {
         >
           {editingSection === "workExperience" ? (
             <div className="edit-form">
-              <p>
-                Edit functionality for multiple entries is complex. A simple
-                input is shown here.
-              </p>
+              <p>Edit functionality for multiple entries is simplified.</p>
               <div className="edit-actions">
                 <button className="btn btn-save" onClick={handleSave}>
                   Save
@@ -277,7 +379,7 @@ const Profile = () => {
           )}
         </ProfileSection>
 
-        {/* Education Section (Simplified Edit) */}
+        {/* Education Section */}
         <ProfileSection
           title="Education"
           icon={<FaGraduationCap className="section-icon" />}
@@ -285,10 +387,7 @@ const Profile = () => {
         >
           {editingSection === "education" ? (
             <div className="edit-form">
-              <p>
-                Edit functionality for multiple entries is complex. A simple
-                input is shown here.
-              </p>
+              <p>Edit functionality for multiple entries is simplified.</p>
               <div className="edit-actions">
                 <button className="btn btn-save" onClick={handleSave}>
                   Save

@@ -8,6 +8,7 @@ import {
 } from "react-icons/fa";
 import "../../styles/components/Topbar.css";
 import avatar from '../../assets/images/naruto.png'
+import BackButton from "../BackButton";
 
 const Topbar = ({
   userName,
@@ -38,7 +39,12 @@ const Topbar = ({
   
 
   return (
+
+
     <header className="topbar">
+    <div className="absolute top-6" style={{ right: '2in' }}>
+  <BackButton />
+</div>
       <div className="topbar__left">
         {isMobile && (
           <button

@@ -1,7 +1,7 @@
 // Import paired styles
 import '../../styles/components/FeaturesSection.css';
 // src/components/homepage/FeaturesSection.jsx
-import "../../styles/components/FeaturesSection.css";
+// import "../../styles/components/FeaturesSection.css";
 import {
   FaGraduationCap,
   FaLaptopCode,

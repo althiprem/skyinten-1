@@ -10,7 +10,10 @@ import AdminRoute from "./components/AdminRoute.jsx";
 import Courses from "./pages/Courses.jsx";
 import Hackathons from "./pages/Hackathons.jsx";
 import CoursesGrid from "./components/dashboard/CourseGrid.jsx";
-import CourseDetailsPage from "./components/dashboard/CourseDetailsPage.jsx";
+// import CourseDetailsPage from "./components/dashboard/CourseDetailsPage.jsx";
+import Features from "./pages/Features.jsx";
+import Privacy from "./pages/Privacy.jsx";
+import CourseDetails from "./pages/CourseDetails.jsx";
 
 export default function App() {
   return (
@@ -25,8 +28,11 @@ export default function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="Courses" element={<Courses />} />
               <Route path="Hackathons" element={<Hackathons />} />
+              <Route path="/features" element={<Features />} />
+              <Route path="/privacy" element={<Privacy />} />
               <Route path="/courses" element={<CoursesGrid />} />
-              <Route path="/courses/:id" element={<CourseDetailsPage />} />
+              {/* <Route path="/courses/:id" element={<CourseDetailsPage />} /> */}
+              <Route path="/course/:id" element={<CourseDetails />} />
 
               <Route path="/admin-login" element={<AdminLogin />} />
                <Route

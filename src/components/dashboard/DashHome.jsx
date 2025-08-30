@@ -8,6 +8,7 @@ import {
 } from "react-icons/fa";
 import CourseCard from "./CourseCard";
 import "../../styles/components/dashhome.css";
+import BackButton from "../BackButton";
 
 const DashHome = ({
   userName,
@@ -47,6 +48,8 @@ const DashHome = ({
 
   return (
     <div className="dash-home">
+     
+
       <div className="dash-home__main">
         <div className="dash-home__greeting">
           <h1 className="dash-home__greeting-title">Hello, {userName}!</h1>

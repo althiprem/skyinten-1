@@ -8,6 +8,7 @@ import Profile from "../components/dashboard/Profile";
 import Accomplishments from "../components/dashboard/Accomplishments";
 import MyCourses from "../components/dashboard/MyCourse"
 import avatar from "../assets/images/naruto.png";
+import BackButton from "../components/BackButton";
 
 const Dashboard = () => {
   const [currentSection, setCurrentSection] = useState("home");
@@ -71,7 +72,9 @@ const Dashboard = () => {
   };
 
   return (
+    
     <div className="dashboard">
+     
       {isMobile && showSidebar && <div className="overlay" onClick={() => setShowSidebar(false)} />}
       <Sidebar
         sidebarRef={sidebarRef}

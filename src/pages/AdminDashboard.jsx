@@ -1,6 +1,7 @@
 // src/pages/AdminDashboard.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import BackButton from "../components/BackButton"
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -12,6 +13,9 @@ const AdminDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
+      <div className="absolute top-6" style={{ right: '2in' }}>
+              <BackButton />
+            </div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Admin Dashboard</h1>
         <button
