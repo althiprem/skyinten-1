@@ -20,9 +20,10 @@ export default function CourseCard({ title, duration, level, image }) {
 
   return (
     <div className="courseCard">
-      <div className="courseCard__imageWrap">
-        <img src={image} alt={title} className="courseCard__image" />
-      </div>
+      <div className="course-card__image-container">
+  <img src={image} alt={title} className="course-card__image" />
+</div>
+
       <div className="courseCard__content">
         <h4 className="courseCard__title">{title}</h4>
         <div className="courseCard__meta">

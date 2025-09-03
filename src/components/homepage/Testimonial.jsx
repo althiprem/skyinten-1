@@ -1,7 +1,15 @@
 // Import paired styles
 import '../../styles/components/Testimonial.css';
 import React from "react";
-import "../../styles/components/testimonial.css";
+
+// ✅ Only keep one of these (case-sensitive)
+import "../../styles/components/Testimonial.css";
+
+// ✅ Rename imports (variable names cannot start with numbers)
+import karthikAvatar from "../../assets/images/Karthik.png";
+import meeraAvatar from "../../assets/images/meera.png";
+import rohanAvatar from "../../assets/images/rohan.png";
+import snehaAvatar from "../../assets/images/sneha.png";
 
 const testimonials = [
   {
@@ -9,21 +17,28 @@ const testimonials = [
     role: "Career Switcher, Hyderabad",
     quote:
       "I was stuck in analysis paralysis. Skyinten gave me clarity, structure, and momentum.",
-    avatar: "/avatars/meera.png",
+    avatar: meeraAvatar,   // ✅ fixed name
   },
   {
     name: "Karthik Raj",
     role: "CS Student, Vizag",
     quote:
       "Every module felt like a power-up. I finally understood how to build, not just learn.",
-    avatar: "/avatars/karthik.png",
+    avatar: karthikAvatar,   // ✅ fixed name
   },
   {
     name: "Rohan Das",
     role: "Bootcamp Grad, Kakinada",
     quote:
       "I’ve tried 7 platforms. Only Skyinten made me consistent. That’s the real win.",
-    avatar: "/avatars/rohan.png",
+    avatar: rohanAvatar,   // ✅ use imported image
+  },
+  {
+    name: "Sneha Reddy",
+    role: "Working Professional, Bangalore",
+    quote:
+      "Skyinten helped me balance my job and upskilling journey without burning out.",
+    avatar: snehaAvatar,
   },
 ];
 

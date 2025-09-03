@@ -8,6 +8,12 @@
   flex-direction: column;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+.courseCard__image {
+  width: 100%;
+  height: 180px; /* adjust placeholder height */
+  object-fit: cover; /* ensures image is cropped nicely instead of stretched */
+  border-radius: 8px; /* optional rounded corners */
+}
 
 .course-card:hover {
   transform: translateY(-4px);

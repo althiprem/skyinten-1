@@ -1,5 +1,4 @@
 // Import paired styles
-
 import "../../../styles/components/CourseCarousel.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -8,6 +7,14 @@ import "swiper/css/autoplay";
 import { Navigation, Autoplay } from "swiper/modules";
 import CourseCard from "./CourseCard.jsx";
 import { useRef, useEffect, useState } from "react";
+
+// ✅ Import images from assets
+import pythonImg from "../../../assets/images/python.png";
+import javaImg from "../../../assets/images/java.png";
+import aiImg from "../../../assets/images/ai&ml.png";
+import dataImg from "../../../assets/images/dataanalysis.png";
+import reactImg from "../../../assets/images/react.png";
+import dockerImg from "../../../assets/images/docker.png";
 
 export default function CourseCarousel() {
   const prevRef = useRef(null);
@@ -19,37 +26,37 @@ export default function CourseCarousel() {
       title: "Python Essentials",
       duration: "6h",
       level: "Beginner",
-      image: "/images/courses/python.jpg",
+      image: pythonImg,
     },
     {
       title: "Java Programming",
       duration: "8h",
       level: "Intermediate",
-      image: "/images/courses/java.jpg",
+      image: javaImg,
     },
     {
       title: "AI & ML Foundations",
       duration: "10h",
       level: "Advanced",
-      image: "/images/courses/ai.jpg",
+      image: aiImg,
     },
     {
       title: "Data Analysis with Pandas",
       duration: "7h",
       level: "Intermediate",
-      image: "/images/courses/data.jpg",
+      image: dataImg,
     },
     {
       title: "React Mastery",
       duration: "9h",
       level: "Advanced",
-      image: "/images/courses/react.jpg",
+      image: reactImg,
     },
     {
       title: "Docker Deep Dive",
       duration: "5h",
       level: "Intermediate",
-      image: "/images/courses/docker.jpg",
+      image: dockerImg,
     },
   ];
 
