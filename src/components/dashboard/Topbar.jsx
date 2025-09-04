@@ -34,8 +34,10 @@ const Topbar = ({
   const handleLogout = () =>{
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("user");
-    window.location.href = "/#";
+    window.location.href = "/";
   }
+
+  const [showLogoutPopup, setShowLogoutPopup] = useState(false);
   
 
   return (
@@ -78,45 +80,74 @@ const Topbar = ({
         </button>
         
         <div className="topbar__profile" ref={profileRef}>
-          <button
-            className="topbar__avatar-btn"
-            onClick={() => setProfileMenuOpen((v) => !v)}
-            aria-haspopup="menu"
-            aria-expanded={profileMenuOpen}
-          >
-            <img
-              src="/src/assets/images/profile-placeholder.png"
-              alt={`${userName} avatar`}
-              className="topbar__avatar"
-            />
-          </button>
-          {profileMenuOpen && (
-            <div className="topbar__dropdown" role="menu">
-              <img 
-        src ={avatar} alt="profile avatar"
-        className="w-16 h-16 rounded-full 0bject-cover"
-           style={{ borderRadius: "100%" }}
-           width={110}
-           height={110}  ///you can remove when we needed
-        />
-              <div className="topbar__user-info-section">
-                <FaUserCircle className="topbar__user-icon" />
-                <div className="topbar__user-details">
-                  <span className="topbar__dropdown-username">{userName}</span>
-                  <span className="topbar__dropdown-email">
-                    User@skyintern.com
-                  </span>
-                </div>
-              </div>
-              <button
-                className="topbar__dropdown-item logout"
-                onClick={() => handleLogout("Logout clicked")}
-              >
-                <FaSignOutAlt />
-                <span>Logout</span>
-              </button>
-            </div>
-          )}
+  <button
+    className="topbar__avatar-btn"
+    onClick={() => setProfileMenuOpen((v) => !v)}
+    aria-haspopup="menu"
+    aria-expanded={profileMenuOpen}
+  >
+    <img
+      src="/src/assets/images/profile-placeholder.png"
+      alt={`${userName} avatar`}
+      className="topbar__avatar"
+    />
+  </button>
+
+  {profileMenuOpen && (
+    <div className="topbar__dropdown" role="menu">
+      <img
+        src={avatar}
+        alt="profile avatar"
+        className="w-16 h-16 rounded-full object-cover"
+        style={{ borderRadius: "100%" }}
+        width={110}
+        height={110}
+      />
+
+      <div className="topbar__user-info-section">
+        <FaUserCircle className="topbar__user-icon" />
+        <div className="topbar__user-details">
+          <span className="topbar__dropdown-username">{userName}</span>
+          <span className="topbar__dropdown-email">
+            User@skyintern.com
+          </span>
+        </div>
+      </div>
+
+      <button
+        className="topbar__dropdown-item logout"
+        onClick={() => setShowLogoutPopup(true)}  // 👈 trigger popup
+      >
+        <FaSignOutAlt />
+        <span>Logout</span>
+      </button>
+    </div>
+  )}
+
+  {/* ✅ Logout Popup */}
+  {showLogoutPopup && (
+    <div className="logout-popup">
+      <h3>Confirm Logout</h3>
+      <p>Are you sure you want to logout?</p>
+      <div className="logout-popup__actions">
+        <button
+          className="btn btn--confirm"
+          onClick={() => {
+            setShowLogoutPopup(false);
+            handleLogout();
+          }}
+        >
+          Yes
+        </button>
+        <button
+          className="btn btn--cancel"
+          onClick={() => setShowLogoutPopup(false)}
+        >
+          No
+        </button>
+      </div>
+    </div>
+  )}    
         </div>
       </div>
     </header>

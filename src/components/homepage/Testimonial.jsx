@@ -13,7 +13,7 @@ import snehaAvatar from "../../assets/images/sneha.png";
 
 const testimonials = [
   {
-    name: "Meera K",
+    name: "Meeraj K",
     role: "Career Switcher, Hyderabad",
     quote:
       "I was stuck in analysis paralysis. Skyinten gave me clarity, structure, and momentum.",

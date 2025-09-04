@@ -1,21 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FaHome,
   FaBook,
   FaUser,
-  FaTrophy,
+  FaStar,
   FaCompass,
   FaSignOutAlt,
-  FaStar,
   FaMoneyBill,
   FaPhone
-  
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "../../styles/components/Sidebar.css";
-import { IoMicOff } from "react-icons/io5";
-
-
 
 const Sidebar = ({
   currentSection,
@@ -26,32 +21,32 @@ const Sidebar = ({
   sidebarRef,
 }) => {
   const navigate = useNavigate();
+  const [showPopup, setShowPopup] = useState(false);
 
   const handleNav = (key) => {
     if (key === "explore") {
       navigate("/explore");
+    } else if (key === "contact") {
+      navigate("/contact");
+    } else if (key === "payment") {
+      navigate("/payment");
     } else {
       onSectionChange(key);
     }
+
     if (isMobile) {
       setShowSidebar(false);
     }
-    if (key === "contact") {
-     navigate("/contact");
-}
-    if (key === "payment") {
-      navigate("/payment")
-    }
-  };
-     const handleLogout = () => {
-    // 🔹 Clear auth state
-       localStorage.removeItem("isLoggedIn");
-       localStorage.removeItem("user");
-
-    // 🔹 Redirect to Home
-        navigate("/#");
   };
 
+  const handleLogout = () => {
+    // Clear auth state
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("user");
+
+    // Redirect to Home
+    navigate("/");
+  };
 
   const menuItems = [
     { key: "home", label: "Home", icon: <FaHome /> },
@@ -60,8 +55,7 @@ const Sidebar = ({
     { key: "achievements", label: "Achievements", icon: <FaStar /> },
     { key: "explore", label: "Explore Courses", icon: <FaCompass /> },
     { key: "payment", label: "Payment", icon: <FaMoneyBill /> },
-    { key: "contact", label: "Contact Us", icon: <FaPhone /> }
- 
+    { key: "contact", label: "Contact Us", icon: <FaPhone /> },
   ];
 
   return (
@@ -86,16 +80,34 @@ const Sidebar = ({
               </button>
             </li>
           ))}
+
+          {/* Logout Button */}
           <li className="sidebar__list-item sidebar__logout">
-        <button className="sidebar__link" onClick={handleLogout}>
-          <span className="sidebar__icon">
-            <FaSignOutAlt />
-          </span>
-          <span className="sidebar__label">Logout</span>
-        </button>
-      </li>
+            <button className="sidebar__link" onClick={() => setShowPopup(true)}>
+              <span className="sidebar__icon">
+                <FaSignOutAlt />
+              </span>
+              <span className="sidebar__label">Logout</span>
+            </button>
+          </li>
         </ul>
       </nav>
+
+      {/* Logout Popup */}
+      {showPopup && (
+        <div className="logout-popup">
+          <h3>Confirm Logout</h3>
+          <p>Are you sure you want to logout?</p>
+          <div className="logout-popup__actions">
+            <button className="btn btn--confirm" onClick={handleLogout}>
+              Yes
+            </button>
+            <button className="btn btn--cancel" onClick={() => setShowPopup(false)}>
+              No
+            </button>
+          </div>
+        </div>
+      )}
     </aside>
   );
 };

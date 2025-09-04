@@ -13,12 +13,11 @@ import BackButton from "../components/BackButton"
 const Contact = () => {
   return (
     <div className="contact-page">
-       {/* 🔙 Back Button */}
-        <button
-          onClick={() => navigate(-1)}
-          className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
-          Back
-        </button>
+      
+       <div className="absolute top-6" style={{ right: '2in' }}>
+        <BackButton />
+      </div>
+      
       {/* Hero Section */}
       <div className="contact-hero">
         <h1>Get in Touch</h1>
