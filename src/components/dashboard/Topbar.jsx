@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa";
 import "../../styles/components/Topbar.css";
 import avatar from '../../assets/images/naruto.png'
-import BackButton from "../BackButton";
+
 
 const Topbar = ({
   userName,
@@ -31,8 +31,11 @@ const Topbar = ({
     return () => document.removeEventListener("mousedown", onDocClick);
   }, []);
 
+
+  // // Logout function need to change
+
   const handleLogout = () =>{
-    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("isAuthenticated"); 
     localStorage.removeItem("user");
     window.location.href = "/";
   }
@@ -44,9 +47,6 @@ const Topbar = ({
 
 
     <header className="topbar">
-    <div className="absolute top-6" style={{ right: '2in' }}>
-  <BackButton />
-</div>
       <div className="topbar__left">
         {isMobile && (
           <button

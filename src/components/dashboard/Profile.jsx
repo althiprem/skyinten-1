@@ -128,6 +128,29 @@ const Profile = () => {
     setEditingSection(sectionName);
   };
 
+
+const handleWorkChange = (index, field, value) => {
+  const updated = [...workExperience];
+  updated[index][field] = value;
+  setWorkExperience(updated);
+};
+
+const addWorkExperience = () => {
+  setWorkExperience([...workExperience, { position: "", company: "", duration: "", description: "" }]);
+};
+
+const handleEduChange = (index, field, value) => {
+  const updated = [...education];
+  updated[index][field] = value;
+  setEducation(updated);
+};
+
+const addEducation = () => {
+  setEducation([...education, { degree: "", field: "", university: "", year: "" }]);
+};
+
+
+
   const handleSave = () => {
     console.log("Saving changes:", {
       name,
@@ -141,6 +164,8 @@ const Profile = () => {
     });
     setEditingSection(null);
   };
+
+  
 
   const handleCancel = () => {
     setName(profileData.name);
@@ -175,10 +200,10 @@ const Profile = () => {
   return (
     
     <div className="profile-container">
+   
       <div className="absolute top-6" style={{ right: "2in" }}>
         <BackButton />
       </div>
-   
       {/* Profile Header with Edit */}
       <div className="profile-header">
         {editingSection === "profileHeader" ? (
@@ -349,67 +374,137 @@ const Profile = () => {
         </ProfileSection>
 
         {/* Work Experience Section */}
-        <ProfileSection
-          title="Work Experience"
-          icon={<FaBriefcase className="section-icon" />}
-          onEdit={() => handleEdit("workExperience")}
-        >
-          {editingSection === "workExperience" ? (
-            <div className="edit-form">
-              <p>Edit functionality for multiple entries is simplified.</p>
-              <div className="edit-actions">
-                <button className="btn btn-save" onClick={handleSave}>
-                  Save
-                </button>
-                <button className="btn btn-cancel" onClick={handleCancel}>
-                  Cancel
-                </button>
-              </div>
-            </div>
-          ) : (
-            workExperience.map((job, index) => (
-              <div key={index} className="experience-item">
-                <h3>
-                  {job.position} at {job.company}
-                </h3>
-                <p className="experience-item__duration">{job.duration}</p>
-                <p>{job.description}</p>
-              </div>
-            ))
-          )}
-        </ProfileSection>
+<ProfileSection
+  title="Work Experience"
+  icon={<FaBriefcase className="section-icon" />}
+  onEdit={() => handleEdit("workExperience")}
+>
+  {editingSection === "workExperience" ? (
+    <div className="edit-form">
+      {workExperience.map((job, index) => (
+        <div key={index} className="experience-item-edit">
+          <input
+            type="text"
+            placeholder="Position"
+            value={job.position}
+            onChange={(e) =>
+              handleWorkChange(index, "position", e.target.value)
+            }
+          />
+          <input
+            type="text"
+            placeholder="Company"
+            value={job.company}
+            onChange={(e) =>
+              handleWorkChange(index, "company", e.target.value)
+            }
+          />
+          <input
+            type="text"
+            placeholder="Duration"
+            value={job.duration}
+            onChange={(e) =>
+              handleWorkChange(index, "duration", e.target.value)
+            }
+          />
+          <textarea
+            placeholder="Description"
+            value={job.description}
+            onChange={(e) =>
+              handleWorkChange(index, "description", e.target.value)
+            }
+          />
+        </div>
+      ))}
+      <div className="edit-actions">
+        <button className="btn btn-add" onClick={addWorkExperience}>
+          + Add
+        </button>
+        <button className="btn btn-save" onClick={handleSave}>
+          Save
+        </button>
+        <button className="btn btn-cancel" onClick={handleCancel}>
+          Cancel
+        </button>
+      </div>
+    </div>
+  ) : (
+    workExperience.map((job, index) => (
+      <div key={index} className="experience-item">
+        <h3>
+          {job.position} at {job.company}
+        </h3>
+        <p className="experience-item__duration">{job.duration}</p>
+        <p>{job.description}</p>
+      </div>
+    ))
+  )}
+</ProfileSection>
 
-        {/* Education Section */}
-        <ProfileSection
-          title="Education"
-          icon={<FaGraduationCap className="section-icon" />}
-          onEdit={() => handleEdit("education")}
-        >
-          {editingSection === "education" ? (
-            <div className="edit-form">
-              <p>Edit functionality for multiple entries is simplified.</p>
-              <div className="edit-actions">
-                <button className="btn btn-save" onClick={handleSave}>
-                  Save
-                </button>
-                <button className="btn btn-cancel" onClick={handleCancel}>
-                  Cancel
-                </button>
-              </div>
-            </div>
-          ) : (
-            education.map((edu, index) => (
-              <div key={index} className="education-item">
-                <h3>
-                  {edu.degree} in {edu.field}
-                </h3>
-                <p>
-                  {edu.university}, {edu.year}
-                </p>
-              </div>
-            ))
-          )}
-        </ProfileSection>
+{/* Education Section */}
+<ProfileSection
+  title="Education"
+  icon={<FaGraduationCap className="section-icon" />}
+  onEdit={() => handleEdit("education")}
+>
+  {editingSection === "education" ? (
+    <div className="edit-form">
+      {education.map((edu, index) => (
+        <div key={index} className="education-item-edit">
+          <input
+            type="text"
+            placeholder="Degree"
+            value={edu.degree}
+            onChange={(e) => handleEduChange(index, "degree", e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Field"
+            value={edu.field}
+            onChange={(e) => handleEduChange(index, "field", e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="University"
+            value={edu.university}
+            onChange={(e) =>
+              handleEduChange(index, "university", e.target.value)
+            }
+          />
+          <input
+            type="text"
+            placeholder="Year"
+            value={edu.year}
+            onChange={(e) => handleEduChange(index, "year", e.target.value)}
+          />
+        </div>
+      ))}
+      <div className="edit-actions">
+        <button className="btn btn-add" onClick={addEducation}>
+          + Add
+        </button>
+        <button className="btn btn-save" onClick={handleSave}>
+          Save
+        </button>
+        <button className="btn btn-cancel" onClick={handleCancel}>
+          Cancel
+        </button>
+      </div>
+    </div>
+  ) : (
+    education.map((edu, index) => (
+      <div key={index} className="education-item">
+        <h3>
+          {edu.degree} in {edu.field}
+        </h3>
+        <p>
+          {edu.university}, {edu.year}
+        </p>
+      </div>
+    ))
+  )}
+</ProfileSection>
+
       </div>
     </div>
   );

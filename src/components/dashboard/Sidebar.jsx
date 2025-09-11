@@ -41,7 +41,7 @@ const Sidebar = ({
 
   const handleLogout = () => {
     // Clear auth state
-    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("isAuthenticated")
     localStorage.removeItem("user");
 
     // Redirect to Home

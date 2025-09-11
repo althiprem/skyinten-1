@@ -55,10 +55,6 @@ const CourseDetails = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <div className="absolute top-6 right-6">
-        <BackButton />
-      </div>
-
       {/* Header */}
       <header className="navHome">
         <div className="navHome__inner">
@@ -71,6 +67,9 @@ const CourseDetails = () => {
             <span className="navHome__brandText">Skyinten</span>
           </Link>
         </div>
+        <div className="absolute top-6" style={{ right: '2in' }}>
+        <BackButton />
+      </div>
       </header>
 
       {/* Layout */}

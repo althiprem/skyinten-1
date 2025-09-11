@@ -8,15 +8,44 @@ import Profile from "../components/dashboard/Profile";
 import Accomplishments from "../components/dashboard/Accomplishments";
 import MyCourses from "../components/dashboard/MyCourse"
 import avatar from "../assets/images/naruto.png";
-import BackButton from "../components/BackButton";
+import { useNavigate } from "react-router-dom";
+import Hackathons from "./Hackathons";
+
 
 const Dashboard = () => {
   const [currentSection, setCurrentSection] = useState("home");
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [showSidebar, setShowSidebar] = useState(false);
   const sidebarRef = useRef(null);
+  const navigate = useNavigate();
+  
 
-  const hackathon = {
+  const handleNavigate = (section) => {
+  switch (section) {
+    case "courses":
+      navigate("/courses");
+      break;
+    case "Hackathon":
+      navigate("/Hackathons");
+      break;
+    case "explore Hackathons":
+      navigate("/explore Hackathons");
+      break;
+    case "profile":
+      navigate("/profile");
+      break;
+    case "achievements":
+      navigate("/achievements");
+      break;
+    case "home":
+    default:
+      navigate("/dashboard");
+      break;
+  }
+};
+
+
+  const Hackathon = {
     title: "AI Builders Hackathon",
     date: "Sep 14, 2025",
     time: "10:00 AM IST",
@@ -59,7 +88,7 @@ const Dashboard = () => {
   const renderSection = () => {
     switch (currentSection) {
       case "home":
-        return <DashHome userName="" onNavigate={setCurrentSection} hackathon={hackathon} />;
+        return <DashHome userName="" onNavigate={handleNavigate} hackathon={Hackathon} />;
       case "courses":
         return <MyCourses />; // ✅ show unlocked courses from coursesData.js
       case "profile":
@@ -67,8 +96,9 @@ const Dashboard = () => {
       case "achievements":
         return <Accomplishments />;
       default:
-        return <DashHome userName="" onNavigate={setCurrentSection} hackathon={hackathon} />;
+        return <DashHome userName="" onNavigate={handleNavigate} hackathon={Hackathons} />;
     }
+
   };
 
   return (
@@ -80,6 +110,7 @@ const Dashboard = () => {
         sidebarRef={sidebarRef}
         currentSection={currentSection}
         onSectionChange={setCurrentSection}
+        onNavigate={handleNavigate}
         isMobile={isMobile}
         showSidebar={showSidebar}
         setShowSidebar={setShowSidebar}
@@ -90,7 +121,7 @@ const Dashboard = () => {
           onMenuToggle={handleMenuToggle}
           isMobile={isMobile}
           currentSection={currentSection}
-          onNavigate={setCurrentSection}
+          onNavigate={handleNavigate}
           showSidebar={showSidebar}
         />
         <main className="dashboard__main">{renderSection()}</main>

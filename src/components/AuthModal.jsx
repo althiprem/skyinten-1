@@ -96,6 +96,7 @@ export default function AuthModal({ isOpen, type, onClose, onSuccess }) {
       // Handle PHP response
       if (res.data.success) {
         onSuccess?.(res.data);
+        localStorage.setItem("isAuthenticated", true);
         handleClose();
         navigate("/dashboard");
       } else {
@@ -126,6 +127,7 @@ export default function AuthModal({ isOpen, type, onClose, onSuccess }) {
     try {
       const result = await signInWithGoogle();
       onSuccess?.(result.user);
+      localStorage.setItem("isAuthenticated", true);
       handleClose();
       navigate("/dashboard");
     } catch (err) {
@@ -141,6 +143,7 @@ export default function AuthModal({ isOpen, type, onClose, onSuccess }) {
     try {
       const result = await signInWithGithub();
       onSuccess?.(result.user);
+      localStorage.setItem("isAuthenticated", true);
       handleClose();
       navigate("/dashboard");
     } catch (err) {

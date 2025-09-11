@@ -1,0 +1,176 @@
+/* src/styles/pages/Hackathons.css */
+
+.navHome {
+  background-color: #007bff; /* Bright header color */
+  padding: 10px 20px;
+  transition: background-color 0.3s ease;
+}
+
+.navHome__inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navHome__brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #fff;
+}
+
+.navHome__brandIcon {
+  width: 50px;
+  height: 50px;
+  filter: brightness(1.3); /* Make the logo bright */
+  transition: filter 0.3s ease;
+}
+
+.navHome__brandIcon:hover {
+  filter: brightness(1.5); /* Extra brightness on hover */
+}
+
+.navHome__brandText {
+  margin-left: 15px;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.hackathons-container {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark-mode {
+  background-color: #121212;
+  color: #f1f1f1;
+}
+
+.hackathons-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #007bff;
+  animation: fadeIn 1s ease forwards;
+}
+
+.hackathon-section {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  animation: fadeIn 1s ease forwards;
+}
+
+.dark-mode .hackathon-section {
+  background-color: #1e1e1e;
+  border-color: #333;
+  color: #f1f1f1;
+}
+
+.hackathon-section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+}
+
+.hackathon-details p {
+  margin: 8px 0;
+}
+
+.hackathon-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.hackathon-form label {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.hackathon-form input {
+  padding: 12px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.hackathon-form input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.dark-mode .hackathon-form input {
+  background-color: #2c2c2c;
+  border-color: #555;
+  color: #fff;
+}
+
+.hackathon-form button {
+  margin-top: 20px;
+  padding: 12px;
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.hackathon-form button:hover {
+  background-color: #0056b3;
+}
+
+.hackathon-section ul {
+  list-style: disc inside;
+  padding-left: 20px;
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hackathons-container {
+    margin: 20px;
+    padding: 15px;
+  }
+
+  .hackathons-title {
+    font-size: 2rem;
+  }
+
+  .hackathon-section h2 {
+    font-size: 1.4rem;
+  }
+
+  .navHome__brandText {
+    font-size: 1.5rem;
+  }
+
+  .navHome__brandIcon {
+    width: 40px;
+    height: 40px;
+  }
+}

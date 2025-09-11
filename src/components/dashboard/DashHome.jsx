@@ -45,7 +45,6 @@ const DashHome = ({
     prize: "₹50,000",
     banner: "/images/hackathons/ai-builders-banner.jpg",
   };
-
   return (
     <div className="dash-home">
      
@@ -114,7 +113,7 @@ const DashHome = ({
             <h2 className="section-header__title">Upcoming Hackathon</h2>
             <button
               className="section-header__link"
-              onClick={() => onNavigate("explore")}
+              onClick={() => onNavigate("explore Hackathons")}
             >
               Learn more <FaArrowRight />
             </button>
@@ -149,7 +148,7 @@ const DashHome = ({
               <div className="hackathon-card__actions">
                 <button
                   className="btn btn--primary"
-                  onClick={() => onNavigate("explore")}
+                  onClick={() => onNavigate("Hackathon")}
                 >
                   Join now
                 </button>

@@ -39,7 +39,7 @@ const Contact = () => {
         <div className="contact-card">
           <FaMapMarkerAlt className="icon map" />
           <h3>Office</h3>
-          <p>Bangalore, India</p>
+          <p>Hyderabad, India</p>
         </div>
       </div>
 
