@@ -34,6 +34,7 @@ $email = $data['email'] ?? '';
 $password = $data['password'] ?? '';
 $name = $data['name'] ?? '';
 
+// =================== SIGNUP ===================
 if ($action === "signup") {
     $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
@@ -57,6 +58,7 @@ if ($action === "signup") {
     exit;
 }
 
+// =================== LOGIN ===================
 if ($action === "login") {
     $stmt = $conn->prepare("SELECT id, name, password FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
@@ -75,6 +77,29 @@ if ($action === "login") {
         }
     } else {
         echo json_encode(["success" => false, "message" => "User not found"]);
+    }
+    exit;
+}
+
+// =================== HACKATHON REGISTER ===================
+if ($action === "hackathon_register") {
+    $fullName = $data['name'] ?? '';
+    $email = $data['email'] ?? '';
+    $mobile = $data['Mobile'] ?? '';
+    $college = $data['College_Name'] ?? '';
+
+    if (empty($fullName) || empty($email) || empty($mobile) || empty($college)) {
+        echo json_encode(["success" => false, "message" => "All fields are required"]);
+        exit;
+    }
+
+    $stmt = $conn->prepare("INSERT INTO hackathon (name, email, mobile, college_name) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $fullName, $email, $mobile, $college);
+
+    if ($stmt->execute()) {
+        echo json_encode(["success" => true, "message" => "Hackathon registration successful"]);
+    } else {
+        echo json_encode(["success" => false, "message" => "Hackathon registration failed"]);
     }
     exit;
 }

@@ -4,6 +4,7 @@ import "../styles/pages/Hackathons.css";
 import { NavLink } from "react-router-dom";
 import SkyintenLogo from "../assets/icons/skyinten-white-vector.svg";
 import BackButton from "../components/BackButton";
+import axios from "axios";
 
 const Hackathons = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,8 @@ const Hackathons = () => {
     College_Name: "",
   });
 
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -20,14 +23,33 @@ const Hackathons = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Registration successful!");
-    setFormData({ name: "", email: "", Mobile: "", College_Name: "" });
+    setLoading(true);
+
+    try {
+      const response = await axios.post("http://localhost/skyintern/php/db.php", {
+        action: "hackathon_register",
+        ...formData,
+      });
+
+      if (response.data.success) {
+        alert("✅ Registration successful!");
+        setFormData({ name: "", email: "", Mobile: "", College_Name: "" });
+      } else {
+        alert("❌ " + response.data.message);
+      }
+    } catch (err) {
+      alert("⚠️ Error submitting form. Please try again.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="hackathons-page">
+      {/* Header */}
       <header className="navHome">
         <div className="navHome__inner">
           <NavLink to="/" className="navHome__brand">
@@ -39,26 +61,41 @@ const Hackathons = () => {
             <span className="navHome__brandText">Skyinten</span>
           </NavLink>
         </div>
-        <div className="absolute top-6" style={{ right: '2in' }}>
-        <BackButton />
-      </div>
+        <div className="absolute top-6" style={{ right: "2in" }}>
+          <BackButton />
+        </div>
       </header>
 
+      {/* Main Container */}
       <div className="hackathons-container dark-mode">
         <h1 className="hackathons-title fade-in">Hackathons</h1>
 
+        {/* Upcoming Hackathon */}
         <div className="hackathon-section fade-in">
           <h2>Upcoming Hackathon</h2>
           <div className="hackathon-details">
-            <p><strong>Title:</strong> AI Builders Hackathon</p>
-            <p><strong>Date:</strong> Sep 14, 2025</p>
-            <p><strong>Time:</strong> 10:00 AM IST</p>
-            <p><strong>Theme:</strong> Building Assistive Learning Tools</p>
-            <p><strong>Team Size:</strong> 1–4 members</p>
-            <p><strong>Prize:</strong> ₹50,000</p>
+            <p>
+              <strong>Title:</strong> AI Builders Hackathon
+            </p>
+            <p>
+              <strong>Date:</strong> Sep 14, 2025
+            </p>
+            <p>
+              <strong>Time:</strong> 10:00 AM IST
+            </p>
+            <p>
+              <strong>Theme:</strong> Building Assistive Learning Tools
+            </p>
+            <p>
+              <strong>Team Size:</strong> 1–4 members
+            </p>
+            <p>
+              <strong>Prize:</strong> ₹50,000
+            </p>
           </div>
         </div>
 
+        {/* Registration Form */}
         <div className="hackathon-section fade-in">
           <h2>Register for Hackathon</h2>
           <form className="hackathon-form" onSubmit={handleSubmit}>
@@ -70,6 +107,7 @@ const Hackathons = () => {
               onChange={handleChange}
               required
             />
+
             <label>Email</label>
             <input
               type="email"
@@ -79,14 +117,14 @@ const Hackathons = () => {
               required
             />
 
-            <label>Mobile_no</label>
+            <label>Mobile No</label>
             <input
-                type="Number"
-                name="Mobile"
-                value={formData.Mobile_no}
-                onChange={handleChange}
-                required
-                />
+              type="text"
+              name="Mobile"
+              value={formData.Mobile}
+              onChange={handleChange}
+              required
+            />
 
             <label>College Name</label>
             <input
@@ -96,10 +134,14 @@ const Hackathons = () => {
               onChange={handleChange}
               required
             />
-            <button type="submit">Join Now</button>
+
+            <button type="submit" disabled={loading}>
+              {loading ? "Submitting..." : "Join Now"}
+            </button>
           </form>
         </div>
 
+        {/* Rules */}
         <div className="hackathon-section fade-in">
           <h2>Rules & Guidelines</h2>
           <ul>
@@ -110,11 +152,14 @@ const Hackathons = () => {
           </ul>
         </div>
 
+        {/* Past Hackathons */}
         <div className="hackathon-section fade-in">
           <h2>Past Hackathons</h2>
           <ul>
             <li>Global Hack 2024 — Built sustainable tech solutions.</li>
-            <li>EduTech Challenge 2024 — Developed interactive learning tools.</li>
+            <li>
+              EduTech Challenge 2024 — Developed interactive learning tools.
+            </li>
             <li>Health Innovators 2023 — Created health monitoring apps.</li>
           </ul>
         </div>
